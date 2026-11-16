@@ -17,7 +17,7 @@
           Sajian Oleh-Oleh Autentik Dapur UMKM Banyuwangi
         </h2>
         <p class="text-sm sm:text-base text-cotton-200/90 leading-relaxed">
-          Pilih buah tangan favorit Anda dari berbagai toko UMKM lokal, lalu pesan langsung melalui WhatsApp. Tanpa akun, tanpa ribet.
+          Pilih buah tangan favorit Anda dari berbagai toko UMKM lokal — pesan langsung via WhatsApp, atau kumpulkan di keranjang dan bayar sekaligus via transfer bank. Tanpa akun, tanpa ribet.
         </p>
       </div>
       <div class="flex flex-wrap sm:flex-nowrap lg:flex-col gap-3 shrink-0">
@@ -33,6 +33,13 @@
           <div>
             <p class="text-xs font-bold text-cotton-50">Pesan Langsung via WhatsApp</p>
             <p class="text-[11px] text-cotton-200/80">Format pesanan otomatis siap kirim</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-3 bg-espresso-800/80 backdrop-blur px-4 py-3 rounded-2xl border border-sogan-400/30">
+          <span class="w-2.5 h-2.5 rounded-full bg-osing-500 shrink-0"></span>
+          <div>
+            <p class="text-xs font-bold text-cotton-50">Keranjang &amp; Transfer Bank</p>
+            <p class="text-[11px] text-cotton-200/80">Gabung produk, bayar sekali transfer</p>
           </div>
         </div>
       </div>
@@ -84,7 +91,7 @@
 
     <div class="flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm">
       <p id="catalog-result-info" class="text-espresso-800 font-semibold">Memuat produk...</p>
-      <p class="text-xs text-espresso-700/75">Klik <span class="font-bold text-coffeeleaf-700">Pesan via WhatsApp</span> untuk terhubung ke toko</p>
+      <p class="text-xs text-espresso-700/75">Klik <span class="font-bold text-coffeeleaf-700">Pesan via WhatsApp</span> untuk terhubung ke toko, atau <span class="font-bold text-osing-600">+ Keranjang</span> untuk bayar transfer</p>
     </div>
   </div>
 
@@ -109,4 +116,8 @@
     items: <?= json_encode($items, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>,
     categories: <?= json_encode($categories, JSON_UNESCAPED_UNICODE) ?>
   };
+  window.SUKARIA_CART_ADD = <?= json_encode([
+      'url'  => url('cart/add'),
+      'csrf' => csrf_token(),
+  ], JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
 </script>

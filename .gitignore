@@ -3,6 +3,10 @@
 # Kecualikan placeholder
 !/public/uploads/products/.gitkeep
 
+# File upload runtime (bukti transfer user)
+/public/uploads/proofs/*
+!/public/uploads/proofs/.gitkeep
+
 # Sistem
 .DS_Store
 Thumbs.db

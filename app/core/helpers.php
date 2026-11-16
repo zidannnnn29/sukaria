@@ -365,7 +365,7 @@ function delete_product_image(?string $imagePath): void
 }
 
 /** Simpan data-URL base64 hasil kompresi sisi klien sebagai file JPG. */
-function save_base64_image(string $dataUrl): ?string
+function save_base64_image(string $dataUrl, ?string $dir = null, string $prefix = 'prd'): ?string
 {
     if (!preg_match('/^data:image\/(png|jpeg|jpg|webp);base64,(.+)$/i', $dataUrl, $m)) {
         return null;
@@ -374,12 +374,39 @@ function save_base64_image(string $dataUrl): ?string
     if ($binary === false || strlen($binary) < 100 || strlen($binary) > SUKARIA_MAX_UPLOAD) {
         return null;
     }
-    if (!is_dir(SUKARIA_UPLOAD_DIR) && !mkdir(SUKARIA_UPLOAD_DIR, 0775, true)) {
+    $dir = $dir ?? SUKARIA_UPLOAD_DIR;
+    if (!is_dir($dir) && !mkdir($dir, 0775, true)) {
         return null;
     }
-    $filename = 'prd_' . bin2hex(random_bytes(8)) . '.jpg';
-    if (file_put_contents(SUKARIA_UPLOAD_DIR . '/' . $filename, $binary) === false) {
+    $filename = $prefix . '_' . bin2hex(random_bytes(8)) . '.jpg';
+    if (file_put_contents($dir . '/' . $filename, $binary) === false) {
         return null;
     }
     return $filename;
+}
+
+/** Hapus file bukti transfer dari disk. */
+function delete_proof_image(?string $imagePath): void
+{
+    if (!$imagePath) {
+        return;
+    }
+    $fsPath = SUKARIA_PROOF_DIR . '/' . basename($imagePath);
+    if (is_file($fsPath)) {
+        @unlink($fsPath);
+    }
+}
+
+/** URL bukti transfer (dipakai di panel admin & halaman pesanan). */
+function proof_image_url(?string $imagePath): ?string
+{
+    $path = (string) ($imagePath ?? '');
+    if ($path === '') {
+        return null;
+    }
+    $fsPath = SUKARIA_PROOF_DIR . '/' . basename($path);
+    if (is_file($fsPath)) {
+        return 'uploads/proofs/' . rawurlencode(basename($path)) . '?v=' . filemtime($fsPath);
+    }
+    return null;
 }

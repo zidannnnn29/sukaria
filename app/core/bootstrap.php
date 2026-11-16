@@ -29,8 +29,12 @@ define('SUKARIA_APP_NAME', $config['app_name']);
 define('SUKARIA_TAGLINE', $config['app_tagline']);
 define('SUKARIA_DEFAULT_WA', $config['default_wa']);
 define('SUKARIA_UPLOAD_DIR', $config['upload_dir_products']);
+define('SUKARIA_PROOF_DIR', $config['upload_dir_proofs'] ?? (dirname(__DIR__, 2) . '/public/uploads/proofs'));
 define('SUKARIA_MAX_UPLOAD', (int) $config['max_upload_bytes']);
+define('SUKARIA_PAYMENT_ACCOUNTS', (array) ($config['payment_accounts'] ?? []));
 
-if (!is_dir(SUKARIA_UPLOAD_DIR)) {
-    @mkdir(SUKARIA_UPLOAD_DIR, 0775, true);
+foreach ([SUKARIA_UPLOAD_DIR, SUKARIA_PROOF_DIR] as $upDir) {
+    if (!is_dir($upDir)) {
+        @mkdir($upDir, 0775, true);
+    }
 }

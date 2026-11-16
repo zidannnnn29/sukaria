@@ -56,6 +56,19 @@
         <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
       </div>
     </div>
+    <div class="bg-cotton-50 rounded-3xl p-5 border border-cotton-300 shadow-sm flex items-start justify-between">
+      <div>
+        <p class="text-xs font-bold uppercase tracking-wider text-espresso-700/75">Pesanan Transfer</p>
+        <p class="font-serif text-3xl font-bold text-coffeeleaf-700 mt-1.5"><?= (int) $orderStats['total_orders'] ?></p>
+        <p class="text-xs text-espresso-700 mt-1">
+          <?= (int) $orderStats['verifying_count'] ?> verifikasi bukti •
+          <a href="<?= e(url('admin/orders')) ?>" class="font-bold text-osing-600 hover:underline">Kelola →</a>
+        </p>
+      </div>
+      <div class="w-11 h-11 rounded-2xl bg-coffeeleaf-100 text-coffeeleaf-700 flex items-center justify-center shrink-0">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="15" height="13" rx="2"/><path d="M16 8h4l3 4v4a2 2 0 0 1-2 2h-1"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="17.5" cy="18.5" r="2.5"/></svg>
+      </div>
+    </div>
   </div>
 
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">

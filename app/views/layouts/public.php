@@ -63,6 +63,15 @@
 
       <nav class="flex items-center gap-2" aria-label="Navigasi utama">
         <?php $authed = Auth::user(); ?>
+        <a href="<?= e(url('cart')) ?>" class="relative px-3.5 py-2.5 rounded-2xl bg-cotton-100 hover:bg-cotton-200 text-espresso-900 border border-cotton-300 text-xs sm:text-sm font-bold transition flex items-center gap-2" aria-label="Keranjang belanja">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          <span class="hidden sm:inline">Keranjang</span>
+          <?php $cartCount = Cart::count(); ?>
+          <span class="inline-flex items-center justify-center min-w-5 h-5 px-1 rounded-full text-[10px] font-extrabold <?= $cartCount > 0 ? 'bg-osing-600 text-white' : 'bg-cotton-300 text-espresso-700' ?>"><?= $cartCount ?></span>
+        </a>
+        <a href="<?= e(url('order/lookup')) ?>" class="hidden md:inline-flex px-3.5 py-2.5 rounded-2xl bg-cotton-100 hover:bg-cotton-200 text-espresso-900 border border-cotton-300 text-xs sm:text-sm font-bold transition">
+          Cek Pesanan
+        </a>
         <?php if ($authed): ?>
           <a href="<?= e(url($authed['role'] === 'admin' ? 'admin/dashboard' : 'seller/dashboard')) ?>"
              class="px-4 py-2.5 rounded-2xl bg-espresso-900 hover:bg-espresso-800 text-cotton-50 text-xs sm:text-sm font-bold transition border border-sogan-500/40 flex items-center gap-2">
@@ -96,7 +105,11 @@
       <div class="flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
         <span class="inline-flex items-center gap-1.5 font-semibold text-coffeeleaf-700">
           <span class="w-2 h-2 rounded-full bg-[#25D366]"></span>
-          <span>Pemesanan via WhatsApp</span>
+          <span>Pesan via WhatsApp</span>
+        </span>
+        <span class="inline-flex items-center gap-1.5 font-semibold text-osing-600">
+          <span class="w-2 h-2 rounded-full bg-osing-500"></span>
+          <span>Keranjang &amp; Transfer Bank</span>
         </span>
         <span class="hidden sm:inline text-cotton-400">•</span>
         <span>Tema Batik Kopi Pecah Banyuwangi</span>

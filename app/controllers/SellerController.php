@@ -335,4 +335,16 @@ final class SellerController
         flash_set('Nomor WhatsApp toko dikembalikan ke default (' . format_wa_display(SUKARIA_DEFAULT_WA) . ').');
         redirect('seller/settings');
     }
+
+    // --- PESANAN TOKO (read-only) ---------------------------------------
+
+    public static function orders(): never
+    {
+        $seller = self::seller();
+        render('panel', 'seller/orders', [
+            'pageTitle' => 'Pesanan Toko — ' . SUKARIA_APP_NAME,
+            'user'      => $seller,
+            'orders'    => Order::forSeller((int) $seller['id']),
+        ]);
+    }
 }

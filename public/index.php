@@ -15,6 +15,21 @@ $routes = [
     // --- Publik / Pembeli ---
     'catalog'   => [CatalogController::class, 'index'],
 
+    // --- Keranjang belanja & checkout (publik, tanpa login) ---
+    'cart'            => [CartController::class, 'view'],
+    'cart/add'        => [CartController::class, 'add'],
+    'cart/update'     => [CartController::class, 'update'],
+    'cart/remove'     => [CartController::class, 'remove'],
+    'cart/clear'      => [CartController::class, 'clear'],
+    'checkout'        => [CartController::class, 'checkoutForm'],
+    'checkout/submit' => [CartController::class, 'submit'],
+
+    // --- Pesanan transfer (publik: cek status & unggah bukti) ---
+    'order/view'    => [OrderController::class, 'view'],
+    'order/lookup'  => [OrderController::class, 'lookup'],
+    'order/find'    => [OrderController::class, 'lookupSubmit'],
+    'order/pay'     => [OrderController::class, 'uploadProof'],
+
     // --- Autentikasi ---
     'login'     => [AuthController::class, 'showLogin'],
     'do-login'  => [AuthController::class, 'login'],
@@ -23,6 +38,10 @@ $routes = [
     // --- Admin ---
     'admin/dashboard'      => [AdminController::class, 'dashboard'],
     'admin/users'          => [AdminController::class, 'users'],
+    'admin/orders'         => [AdminController::class, 'orders'],
+    'admin/orders/confirm' => [AdminController::class, 'confirmOrder'],
+    'admin/orders/reject'  => [AdminController::class, 'rejectOrder'],
+    'admin/orders/cancel'  => [AdminController::class, 'cancelOrder'],
     'admin/users/create'   => [AdminController::class, 'userForm'],
     'admin/users/edit'     => [AdminController::class, 'userForm'],
     'admin/users/save'     => [AdminController::class, 'saveUser'],
@@ -45,6 +64,7 @@ $routes = [
     'seller/settings'          => [SellerController::class, 'settings'],
     'seller/settings/save'     => [SellerController::class, 'saveSettings'],
     'seller/settings/reset'    => [SellerController::class, 'resetSettings'],
+    'seller/orders'            => [SellerController::class, 'orders'],
 ];
 
 $handler = $routes[$route] ?? null;

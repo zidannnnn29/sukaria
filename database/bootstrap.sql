@@ -26,6 +26,8 @@ USE sukaria_db;
 -- 2. TABEL: users (admin & seller)
 -- ---------------------------------------------------------------------
 DROP TABLE IF EXISTS store_settings;
+DROP TABLE IF EXISTS order_items;
+DROP TABLE IF EXISTS orders;
 DROP TABLE IF EXISTS products;
 DROP TABLE IF EXISTS categories;
 DROP TABLE IF EXISTS users;
@@ -96,6 +98,48 @@ CREATE TABLE store_settings (
   PRIMARY KEY (id),
   UNIQUE KEY uq_store_settings_seller (seller_id),
   CONSTRAINT fk_store_settings_seller FOREIGN KEY (seller_id) REFERENCES users (id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ---------------------------------------------------------------------
+-- 5b. TABEL: orders (pesanan transfer dari keranjang belanja)
+-- ---------------------------------------------------------------------
+CREATE TABLE orders (
+  id           INT UNSIGNED  NOT NULL AUTO_INCREMENT,
+  order_no     VARCHAR(20)   NOT NULL COMMENT 'Contoh: SUK-261116-A3F2',
+  buyer_name   VARCHAR(100)  NOT NULL,
+  buyer_phone  VARCHAR(20)   NOT NULL COMMENT 'Nomor WhatsApp pembeli (628...)',
+  buyer_note   VARCHAR(500)  NULL,
+  total_amount INT UNSIGNED  NOT NULL DEFAULT 0,
+  status       ENUM('pending','verifying','paid','rejected','cancelled') NOT NULL DEFAULT 'pending',
+  proof_path   VARCHAR(255)  NULL COMMENT 'Nama file bukti transfer di public/uploads/proofs',
+  proof_at     TIMESTAMP     NULL DEFAULT NULL,
+  paid_at      TIMESTAMP     NULL DEFAULT NULL,
+  created_at   TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at   TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  UNIQUE KEY uq_orders_no (order_no),
+  KEY idx_orders_status (status),
+  KEY idx_orders_created (created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ---------------------------------------------------------------------
+-- 5c. TABEL: order_items (snapshot produk saat pesanan dibuat)
+-- ---------------------------------------------------------------------
+CREATE TABLE order_items (
+  id           INT UNSIGNED  NOT NULL AUTO_INCREMENT,
+  order_id     INT UNSIGNED  NOT NULL,
+  product_id   INT UNSIGNED  NULL COMMENT 'NULL bila produk sudah dihapus',
+  seller_id    INT UNSIGNED  NULL COMMENT 'NULL bila seller sudah dihapus',
+  product_name VARCHAR(150)  NOT NULL,
+  store_name   VARCHAR(150)  NOT NULL,
+  unit_price   INT UNSIGNED  NOT NULL,
+  qty          INT UNSIGNED  NOT NULL DEFAULT 1,
+  subtotal     INT UNSIGNED  NOT NULL,
+  PRIMARY KEY (id),
+  KEY idx_order_items_order  (order_id),
+  KEY idx_order_items_seller (seller_id),
+  CONSTRAINT fk_order_items_order  FOREIGN KEY (order_id)   REFERENCES orders (id)     ON DELETE CASCADE,
+  CONSTRAINT fk_order_items_product FOREIGN KEY (product_id) REFERENCES products (id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ---------------------------------------------------------------------

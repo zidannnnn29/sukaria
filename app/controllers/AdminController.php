@@ -9,6 +9,7 @@ final class AdminController
         $user = require_role('admin');
         $userStats = User::stats();
         $productStats = Product::adminStats();
+        $orderStats = Order::adminStats();
         $sellers = Database::pdo()->query(
             "SELECT u.id, u.name, u.store_name, u.is_active,
                     COUNT(p.id) AS product_count,
@@ -24,6 +25,7 @@ final class AdminController
             'user'         => $user,
             'userStats'    => $userStats,
             'productStats' => $productStats,
+            'orderStats'   => $orderStats,
             'sellers'      => $sellers,
             'categories'   => $categories,
         ]);
@@ -171,5 +173,82 @@ final class AdminController
         User::delete($id);
         flash_set('User "' . $user['name'] . '" beserta seluruh produknya telah dihapus.');
         redirect('admin/users');
+    }
+
+    // ================= PESANAN TRANSFER =================================
+
+    public static function orders(): never
+    {
+        $user = require_role('admin');
+        $status = trim((string) ($_GET['status'] ?? ''));
+        render('panel', 'admin/orders', [
+            'pageTitle' => 'Pesanan Transfer — ' . SUKARIA_APP_NAME,
+            'user'      => $user,
+            'orders'    => Order::all($status !== '' ? $status : null),
+            'status'    => $status,
+        ]);
+    }
+
+    /** Tandai pesanan LUNAS (pembayaran transfer terverifikasi). */
+    public static function confirmOrder(): never
+    {
+        require_role('admin');
+        require_post();
+
+        $order = Order::findByNo(trim((string) ($_POST['order_no'] ?? '')));
+        if (!$order) {
+            flash_set('Pesanan tidak ditemukan.', 'error');
+            redirect('admin/orders');
+        }
+        if (!in_array($order['status'], ['pending', 'verifying'], true)) {
+            flash_set('Pesanan ' . $order['order_no'] . ' sudah ditutup.', 'error');
+            redirect('admin/orders');
+        }
+
+        Order::markPaid((int) $order['id']);
+        flash_set('Pesanan ' . $order['order_no'] . ' ditandai LUNAS.');
+        redirect('admin/orders');
+    }
+
+    /** Tolak bukti transfer: stok dikembalikan, pembeli bisa unggah ulang. */
+    public static function rejectOrder(): never
+    {
+        require_role('admin');
+        require_post();
+
+        $order = Order::findByNo(trim((string) ($_POST['order_no'] ?? '')));
+        if (!$order) {
+            flash_set('Pesanan tidak ditemukan.', 'error');
+            redirect('admin/orders');
+        }
+        if (!in_array($order['status'], ['pending', 'verifying'], true)) {
+            flash_set('Pesanan ' . $order['order_no'] . ' sudah ditutup.', 'error');
+            redirect('admin/orders');
+        }
+
+        Order::reject((int) $order['id']);
+        flash_set('Pesanan ' . $order['order_no'] . ' ditolak. Stok produk dikembalikan.');
+        redirect('admin/orders');
+    }
+
+    /** Batalkan pesanan yang belum dibayar: stok dikembalikan. */
+    public static function cancelOrder(): never
+    {
+        require_role('admin');
+        require_post();
+
+        $order = Order::findByNo(trim((string) ($_POST['order_no'] ?? '')));
+        if (!$order) {
+            flash_set('Pesanan tidak ditemukan.', 'error');
+            redirect('admin/orders');
+        }
+        if (!in_array($order['status'], ['pending', 'verifying'], true)) {
+            flash_set('Pesanan ' . $order['order_no'] . ' sudah ditutup.', 'error');
+            redirect('admin/orders');
+        }
+
+        Order::cancel((int) $order['id']);
+        flash_set('Pesanan ' . $order['order_no'] . ' dibatalkan. Stok produk dikembalikan.');
+        redirect('admin/orders');
     }
 }

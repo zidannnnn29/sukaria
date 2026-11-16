@@ -11,10 +11,12 @@ $currentRoute = (string) ($_GET['r'] ?? '');
 $navItems = $isAdmin ? [
     ['route' => 'admin/dashboard', 'label' => 'Dashboard',      'icon' => '<rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/>'],
     ['route' => 'admin/users',    'label' => 'Manajemen User', 'icon' => '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>'],
+    ['route' => 'admin/orders',   'label' => 'Pesanan Transfer','icon' => '<rect x="1" y="4" width="15" height="13" rx="2"/><path d="M16 8h4l3 4v4a2 2 0 0 1-2 2h-1"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="17.5" cy="18.5" r="2.5"/><path d="M9 18.5h6"/>'],
 ] : [
     ['route' => 'seller/dashboard', 'label' => 'Dashboard',        'icon' => '<rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/>'],
     ['route' => 'seller/products',  'label' => 'Kelola Produk',    'icon' => '<path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>'],
     ['route' => 'seller/categories','label' => 'Kelola Kategori',  'icon' => '<path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/><path d="M7 7h.01"/>'],
+    ['route' => 'seller/orders',    'label' => 'Pesanan Toko',     'icon' => '<rect x="1" y="4" width="15" height="13" rx="2"/><path d="M16 8h4l3 4v4a2 2 0 0 1-2 2h-1"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="17.5" cy="18.5" r="2.5"/><path d="M9 18.5h6"/>'],
     ['route' => 'seller/settings',  'label' => 'Pengaturan WA',    'icon' => '<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>'],
 ];
 

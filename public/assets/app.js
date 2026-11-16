@@ -243,13 +243,21 @@ function showToast(message, type = 'success') {
           : `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-coffeeleaf-100 text-coffeeleaf-700 border border-coffeeleaf-600/25"><span class="w-1.5 h-1.5 rounded-full bg-coffeeleaf-600"></span>Tersedia (${item.stok})</span>`;
 
       const waAction = out
-        ? `<button type="button" disabled aria-disabled="true" class="w-full py-3 px-4 rounded-2xl bg-cotton-200 text-espresso-700/55 border border-cotton-300 text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-not-allowed">
-             <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
-             <span>Stok Habis — Tidak Tersedia</span></button>`
-        : `<a href="${escapeHTML(buildWaURL(item))}" target="_blank" rel="noopener noreferrer"
-             class="w-full py-3 px-4 rounded-2xl bg-coffeeleaf-600 hover:bg-coffeeleaf-700 text-white text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition shadow-sm">
-             <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.031 2c-5.516 0-9.969 4.453-9.969 9.969 0 1.758.459 3.473 1.331 4.986L2 22l5.188-1.36a9.927 9.927 0 0 0 4.843 1.258h.004c5.515 0 9.968-4.453 9.968-9.969A9.932 9.932 0 0 0 19.08 4.92 9.914 9.914 0 0 0 12.031 2Zm5.816 14.273c-.245.691-1.425 1.321-1.976 1.404-.507.076-1.148.108-1.852-.116-.427-.135-.975-.316-1.677-.619-2.952-1.274-4.88-4.246-5.027-4.442-.147-.197-1.2-1.596-1.2-3.045 0-1.449.76-2.161 1.03-2.456.27-.295.59-.369.786-.369.196 0 .393.002.565.01.181.009.424-.069.663.506.245.59.835 2.038.909 2.186.074.148.123.32.025.517-.098.197-.147.32-.295.492-.147.172-.31.384-.442.516-.148.148-.301.308-.129.603.172.295.764 1.26 1.641 2.041 1.128 1.005 2.079 1.317 2.374 1.464.295.148.467.123.639-.074.172-.197.737-.86.934-1.155.197-.295.393-.246.663-.148.27.098 1.719.811 2.014.958.295.148.491.221.565.344.074.123.074.713-.171 1.404Z"/></svg>
-             <span>Pesan via WhatsApp</span></a>`;
+        ? `<div class="grid grid-cols-1 gap-2">
+             <button type="button" disabled aria-disabled="true" class="w-full py-2.5 px-4 rounded-2xl bg-cotton-200 text-espresso-700/55 border border-cotton-300 text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-not-allowed">
+              <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+              <span>Stok Habis — Tidak Tersedia</span></button>
+           </div>`
+        : `<div class="grid grid-cols-2 gap-2">
+             <a href="${escapeHTML(buildWaURL(item))}" target="_blank" rel="noopener noreferrer" title="Pesan langsung ke toko via WhatsApp"
+              class="w-full py-2.5 px-3 rounded-2xl bg-coffeeleaf-600 hover:bg-coffeeleaf-700 text-white text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 transition shadow-sm">
+              <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.031 2c-5.516 0-9.969 4.453-9.969 9.969 0 1.758.459 3.473 1.331 4.986L2 22l5.188-1.36a9.927 9.927 0 0 0 4.843 1.258h.004c5.515 0 9.968-4.453 9.968-9.969A9.932 9.932 0 0 0 19.08 4.92 9.914 9.914 0 0 0 12.031 2Zm5.816 14.273c-.245.691-1.425 1.321-1.976 1.404-.507.076-1.148.108-1.852-.116-.427-.135-.975-.316-1.677-.619-2.952-1.274-4.88-4.246-5.027-4.442-.147-.197-1.2-1.596-1.2-3.045 0-1.449.76-2.161 1.03-2.456.27-.295.59-.369.786-.369.196 0 .393.002.565.01.181.009.424-.069.663.506.245.59.835 2.038.909 2.186.074.148.123.32.025.517-.098.197-.147.32-.295.492-.147.172-.31.384-.442.516-.148.148-.301.308-.129.603.172.295.764 1.26 1.641 2.041 1.128 1.005 2.079 1.317 2.374 1.464.295.148.467.123.639-.074.172-.197.737-.86.934-1.155.197-.295.393-.246.663-.148.27.098 1.719.811 2.014.958.295.148.491.221.565.344.074.123.074.713-.171 1.404Z"/></svg>
+              <span class="whitespace-nowrap">Pesan WA</span></a>
+             <button type="button" data-cart-add="${item.id}" title="Masukkan ke keranjang, bayar via transfer bank"
+              class="w-full py-2.5 px-3 rounded-2xl bg-osing-600 hover:bg-osing-700 text-white text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 transition shadow-sm">
+              <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+              <span class="whitespace-nowrap">+ Keranjang</span></button>
+           </div>`;
 
       return `
         <article class="group bg-cotton-50 rounded-3xl border border-cotton-300 shadow-sm hover:shadow-md hover:border-sogan-400 transition-all duration-200 flex flex-col overflow-hidden ${out ? 'opacity-85' : ''}">
@@ -294,6 +302,47 @@ function showToast(message, type = 'success') {
   };
   resetBtn.addEventListener('click', resetFilters);
   document.getElementById('catalog-empty-reset-btn').addEventListener('click', resetFilters);
+
+  // Tambah ke keranjang (fetch POST; server memvalidasi stok)
+  grid.addEventListener('click', async (e) => {
+    const btn = e.target.closest('[data-cart-add]');
+    if (!btn || btn.disabled) return;
+    const cartCfg = window.SUKARIA_CART_ADD;
+    if (!cartCfg) return;
+
+    btn.disabled = true;
+    btn.classList.add('opacity-60', 'cursor-wait');
+    try {
+      const body = new URLSearchParams({ _csrf: cartCfg.csrf, product_id: btn.getAttribute('data-cart-add'), qty: '1' });
+      const resp = await fetch(cartCfg.url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'X-Requested-With': 'fetch' },
+        body,
+        redirect: 'manual',
+      });
+      if (resp.redirected || resp.type === 'opaqueredirect' || (resp.status >= 300 && resp.status < 400)) {
+        showToast('Produk ditambahkan ke keranjang 🛒');
+        updateCartBadge();
+      } else if (resp.status === 419) {
+        showToast('Sesi kedaluwarsa — muat ulang halaman.', 'error');
+      } else {
+        showToast('Gagal menambah ke keranjang. Coba lagi.', 'error');
+      }
+    } catch {
+      showToast('Koneksi bermasalah. Coba lagi.', 'error');
+    } finally {
+      btn.disabled = false;
+      btn.classList.remove('opacity-60', 'cursor-wait');
+    }
+  });
+
+  function updateCartBadge() {
+    document.querySelectorAll('a[href*="r=cart"] span.rounded-full').forEach((badge) => {
+      const current = parseInt(badge.textContent, 10) || 0;
+      badge.textContent = String(current + 1);
+      badge.className = 'inline-flex items-center justify-center min-w-5 h-5 px-1 rounded-full text-[10px] font-extrabold bg-osing-600 text-white';
+    });
+  }
 
   renderPills();
   renderGrid();
